@@ -1,3 +1,5 @@
+|PyPI Version|
+
 django-templates-macros
 =======================
 
@@ -20,6 +22,16 @@ This snippets cites::
         https://gist.github.com/skyl/1715202
 
     Modified to support rendering into context by matt@peloquin.com
+
+
+-----
+Where
+-----
+
+You can find this package here:
+
+- Github repository: https://github.com/twidi/django-templates-macros
+- Pypi package: https://pypi.python.org/pypi/django-templates-macros
 
 
 -----
@@ -63,3 +75,7 @@ Usage
 
 Bear in mind that defined and loaded macros are local to each template
 file and are not inherited through `{% extends ... %}` tags.
+
+
+.. |PyPI Version| image:: https://pypip.in/v/django-templates-macros/badge.png
+   :target: https://pypi.python.org/pypi/django-templates-macros
