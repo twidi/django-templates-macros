@@ -17,7 +17,7 @@ readme = read_relative_file('README.rst')
 setup(
     name="django-templates-macros",
     version=version,
-    license="GPL",
+    license="MIT",
     description="Add macros to your django templates",
     long_description=readme,
     url="https://github.com/twidi/django-templates-macros",
@@ -30,6 +30,11 @@ setup(
         "Operating System :: OS Independent",
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
+        "Programming Language :: Python :: 2"
         "Programming Language :: Python :: 2.7"
+        "Programming Language :: Python :: 3"
+        "Programming Language :: Python :: 3.2"
+        "Programming Language :: Python :: 3.3"
+        "Programming Language :: Python :: 3.4"
     ]
 )
