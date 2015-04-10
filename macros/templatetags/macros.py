@@ -1,6 +1,10 @@
-from django import template
-from django.template import FilterExpression
+from django import template, VERSION
 from django.template.loader import get_template
+
+if VERSION[:3] >= (1, 8, 0):
+    from django.template.base import FilterExpression
+else:
+    from django.template import FilterExpression
 
 register = template.Library()
 
