@@ -158,3 +158,48 @@ def do_usemacro(parser, token):
 @register.tag(name="setmacro")
 def do_setmacro(parser, token):
     return UseMacroNode(*parse_usemacro(parser, token), context_only=True)
+
+
+class RefMacroNode(UseMacroNode):
+    def __init__(self, macro_name, parser, *args, **kwargs):
+        self.ref_macro = macro_name
+        self.parser = parser
+        super().__init__(None, *args, **kwargs)
+
+    def render(self, context):
+        try:
+            self.macro = self.parser._macros[self.ref_macro]
+        except (AttributeError, KeyError):
+            m = "Macro '%s' is not defined" % self.ref_macro
+            raise template.TemplateSyntaxError(m)
+
+        return super().render(context)
+
+
+def parse_recurse_macro(parser, token):
+    try:
+        args = token.split_contents()
+        tag_name, macro_name, values = args[0], args[1], args[2:]
+    except IndexError:
+        m = ("'%s' tag requires at least one argument (macro name)"
+             % token.contents.split()[0])
+        raise template.TemplateSyntaxError(m)
+
+    fe_kwargs = {}
+    fe_args = []
+
+    for val in values:
+        if "=" in val:
+            # kwarg
+            name, value = val.split("=")
+            fe_kwargs[name] = FilterExpression(value, parser)
+        else:  # arg
+            # no validation, go for it ...
+            fe_args.append(FilterExpression(val, parser))
+
+    return macro_name, parser, fe_args, fe_kwargs
+
+
+@register.tag(name="recurse_macro")
+def do_recursemacro(parser, token):
+    return RefMacroNode(*parse_recurse_macro(parser, token), context_only=False)

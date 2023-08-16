@@ -58,14 +58,11 @@ Usage
     {% usemacro my_macro "foo" "bar" baz="KW" %}
     <br>
     {% usemacro my_macro num_pages "bar" %}
-    <br>
-    {% setmacro my_macro %} {{ my_macro }}
 
   Renders like::
 
     foo bar KW
     77 bar Default baz
-    default_arg1 default_arg2 Default baz
 
 4) Alternatively save your macros in a separate file, e.g. "mymacro.html" and load it to the current template with::
 
@@ -75,6 +72,22 @@ Usage
 
 Bear in mind that defined and loaded macros are local to each template
 file and are not inherited through `{% extends ... %}` tags.
+
+5) When recursive macros are needed, use the 'recurse_macro' template tag::
+
+    {% macro MENU entries %}
+    <ul>
+        {% for entry in entries %}
+        <li>
+            <a href="{{ entry.link }}"> {{ entry.label }} </a>
+            {% if entry.children %}
+                {% recurse_macro MENU entry.children %}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endmacro %}
+    {% usemacro MENU menu.children %}
 
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/django-templates-macros.svg
